@@ -3,6 +3,9 @@ import contractions
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+import pandas as pd
 
 
 def text_preprocessing(text) -> list:
@@ -50,21 +53,7 @@ def detect_key_word(key_word, text, tokenized=True) -> bool:
     else:
         tokens = text
 
-    keyword = key_word.split(" ")
-    if len(keyword) == 1:
-        return key_word in tokens
-    else:
-        try:
-            idx = tokens.index(keyword[0])
-        except ValueError:
-            return False
-
-        for i in range(1, len(keyword)):
-            if idx + i >= len(tokens):
-                return False
-            if keyword[i] != tokens[idx + i]:
-                return False
-        return True
+    return key_word in tokens
 
 
 def detect_key_word_list(key_word_list, text, tokenized=True, how="any") -> bool:
@@ -89,3 +78,53 @@ def detect_key_word_list(key_word_list, text, tokenized=True, how="any") -> bool
             if not detect_key_word(key_word, tokens, True):
                 return False
         return True
+
+
+def plot_wordcloud(text):
+    """
+    plot wordcloud graph for given text
+    """
+    # Generate the word cloud
+    wordcloud = WordCloud(width=800, height=400, background_color="white").generate(
+        text
+    )
+    plt.figure(figsize=(10, 5))
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")  # Remove axis
+    plt.title("Word Cloud")
+    plt.show()
+
+
+def create_tfidf_df(tokens, n_gram):
+    """
+    create TF-IDF dataframe on given list of tokens
+    """
+
+    corpus = tokens.apply(lambda x: " ".join(x)).to_list()
+
+    # Create a TF-IDF vectorizer
+    tfidf_vectorizer = TfidfVectorizer(ngram_range=(n_gram, n_gram))
+
+    # Fit and transform the documents to compute TF-IDF matrix
+    tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
+
+    # Get the feature names (terms)
+    feature_names = tfidf_vectorizer.get_feature_names_out()
+
+    # Convert TF-IDF matrix to a pandas DataFrame
+    tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
+
+    return tfidf_df
+
+
+def top_N_tfidf(tfidf_df, N) -> list:
+    """
+    Find top N TF-IDF tokens and return in a list
+    """
+    rank_df = pd.DataFrame(tfidf_df.max(axis=0), columns=["tfidf"]).reset_index(
+        names="token"
+    )
+    tokens = rank_df.sort_values(by="tfidf", ascending=False, ignore_index=True).loc[
+        : N - 1, "token"
+    ]
+    return tokens.tolist()

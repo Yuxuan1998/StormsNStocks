@@ -8,13 +8,27 @@ import numpy as np
 from newsplease import NewsPlease
 import logging
 
-from src.text_mining_util import detect_key_word_list, text_preprocessing
+from src.text_mining_util import text_preprocessing, detect_key_word
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-DISASTER_KEY_WORDS = ["hurricane", "storm"]
+DISASTER_KEY_WORDS = [
+    "earthquake",
+    "tsunami",
+    "typhoon",
+    "cyclone",
+    "hurricane",
+    "tornado",
+    "flood",
+    "drought",
+    "wildfire",
+    "blizzard",
+    "storm",
+    "derecho",
+    "bomb cyclone",
+]
 
 
 class NewsCollector:
@@ -96,11 +110,22 @@ class NewsCollector:
         # material type is news article
         df = df[df.type == "article"].reset_index(drop=True)
 
-        # detect keywords
-        contain_kw = df["title_tokens"].apply(
-            lambda x: detect_key_word_list(self.disaster_key_words, x)
+        # drop US briefing:
+        s = "US briefing:"
+        df = df[df.webTitle.apply(lambda x: x[: len(s)] != s)].reset_index(drop=True)
+
+        # detect disaster
+        df["disaster_type"] = pd.Series()
+        for disaster in self.disaster_key_words:
+            df["disaster_type"] = np.where(
+                df.title_tokens.apply(lambda x: detect_key_word(disaster, x)),
+                disaster,
+                df.disaster_type,
+            )
+
+        df = df.drop(columns=["title_tokens"])[~df.disaster_type.isna()].reset_index(
+            drop=True
         )
-        df = df[contain_kw].reset_index(drop=True)
 
         return df
 
