@@ -13,7 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import fkscore
 
 def draw_stackplot(data,xlabels,ylabels):
-    # test
+
     # X标签 行，即章节
     # Y标签 列，即词汇
     # 数据 即词频，需要转置后才能应用
@@ -188,7 +188,7 @@ def readability(pd_dataset):
 
     return pd_dataset
 
-with open("stopword_list.txt", "r") as file:
+with open(r"src/stopword_list.txt", "r") as file:
     reader = file.readlines()
     stopword_list = [word.strip() for word in reader]
 
@@ -196,35 +196,23 @@ with open("stopword_list.txt", "r") as file:
 read guardian metadata
 '''
 
-metadata_list = os.listdir("guardian_metadata")
-disaster_dataset = ""
-for file in tqdm(metadata_list):
-
-    tem_metedata = pd.read_csv(f'./guardian_metadata/{file}', sep=',', lineterminator='\n')
-
-    try:
-        disaster_dataset = pd.concat([disaster_dataset, tem_metedata])
-    except:
-        disaster_dataset = tem_metedata
+disaster_dataset = pd.read_csv(r"data\news\news_metadata.csv", sep=',', lineterminator='\n')
 
 ###
 ### read guardian text data and match it to guardian metatdata
 ###
 
 article_path = list(disaster_dataset["path"])
-article_path = [path.split("/")[-1] for path in article_path]
 
 text_content = []
 for path in tqdm(article_path):
 
-    with open(f"./guardian_articles/{path}", "r", encoding='utf-8') as tem_file:
+    with open(f"{path}", "r", encoding='utf-8') as tem_file:
         reader = tem_file.read()
         text_content.append(reader)
 
 disaster_dataset.insert(column="text", loc=len(disaster_dataset.columns.values), value=text_content)
-disaster_dataset.columns = ['pub_date', 'title', 'url', 'type', 'disaster_type', 'path', 'text']
-
-#print(disaster_dataset)
+disaster_dataset.columns = ['pub_date', 'title', 'url', 'type', 'title_tokens', 'path', 'text']
 
 '''
     preliminary processing
