@@ -24,10 +24,11 @@ def draw_stackplot(data,xlabels,ylabels):
     pylab.mpl.rcParams['axes.unicode_minus'] = False
     fig, ax = plt.subplots()
     ax.stackplot(xlabels, data, labels=ylabels, baseline='wiggle')
-    ax.axes.set_yticks(range(len(ylabels)))
-    ax.axes.set_yticklabels(ylabels)
-    ax.axes.set_xticks(range(len(xlabels)))
-    ax.axes.set_xticklabels(xlabels)
+    #ax.axes.set_yticks(range(len(ylabels)))
+    #ax.axes.set_yticklabels(ylabels)
+    #ax.axes.set_xticks(range(len(xlabels)))
+    #ax.axes.set_xticklabels(xlabels)
+    ax.set_xlabel('News index')
     ax.legend(loc='best')
     ax.set_title('Interesting Graph\nCheck it out')
     plt.show()
@@ -41,8 +42,10 @@ def draw_heatmap(data, xlabels, ylabels):
     cmap = cm.Blues
     figure = plt.figure(facecolor='w')
     ax = figure.add_subplot(2, 1, 1, position=[0.1, 0.15, 0.8, 0.8])
-    ax.set_yticks(range(len(ylabels)))
-    ax.set_yticklabels(ylabels)
+    #ax.set_yticks(range(len(ylabels)))
+    #ax.set_yticklabels(ylabels)
+    ax.set_xlabel('Word frequency')
+    ax.set_ylabel('News index')
     ax.set_xticks(range(len(xlabels)))
     ax.set_xticklabels(xlabels)
     map = ax.imshow(data, interpolation='nearest', cmap=cmap, aspect='auto', vmin=vmin, vmax=vmax)
@@ -235,7 +238,7 @@ disaster_dataset.insert(column="num_nonwhite_chars", loc=len(disaster_dataset.co
 disaster_dataset.insert(column="num_number", loc=len(disaster_dataset.columns.values), value=num_number)
 
 ### tfidf feature
-tfidf_matrix, disaster_dataset, feature_name = tfidf_feature(pd_dataset=disaster_dataset, max_features=20, ngram_range=(1, 2), text_corpus=text_content, stopwords=stopword_list)
+tfidf_matrix, disaster_dataset, feature_name = tfidf_feature(pd_dataset=disaster_dataset, max_features=20, ngram_range=(1, 5), text_corpus=text_content, stopwords=stopword_list)
 
 ### sentiment analysis
 disaster_dataset = sentiment(pd_dataset=disaster_dataset)
@@ -278,15 +281,26 @@ draw_stackplot(transposed_data, ylabels, xlabels)
 
 from wordcloud import WordCloud
 
+all_text = []
 # 将文本内容合并成一个字符串
-all_text = " ".join(text_content)
+for token_each_news in list(disaster_dataset["token"]):
+    for token in token_each_news:
+        all_text.append(token)
+
+all_text = " ".join(all_text)
 
 # 生成词云图
-wordcloud = WordCloud().generate(all_text)
+wordcloud = WordCloud(
+    background_color="white", 
+        width=1500,         
+        height=960,             
+        margin=10,              
+        stopwords=stopword_list
+        ).generate(all_text)
 
 # 显示词云图
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.show()
-
+wordcloud.to_file('disaster_wordcloud.png')
 
