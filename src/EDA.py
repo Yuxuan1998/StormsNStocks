@@ -30,7 +30,7 @@ def draw_stackplot(data,xlabels,ylabels):
     #ax.axes.set_xticklabels(xlabels)
     ax.set_xlabel('News index')
     ax.legend(loc='best')
-    ax.set_title('Interesting Graph\nCheck it out')
+    ax.set_title('The overlap of frequent words')
     plt.show()
 
 #文本词频可视化图表heatmap风格
@@ -44,7 +44,7 @@ def draw_heatmap(data, xlabels, ylabels):
     ax = figure.add_subplot(2, 1, 1, position=[0.1, 0.15, 0.8, 0.8])
     #ax.set_yticks(range(len(ylabels)))
     #ax.set_yticklabels(ylabels)
-    ax.set_xlabel('Word frequency')
+    ax.set_xlabel('Word')
     ax.set_ylabel('News index')
     ax.set_xticks(range(len(xlabels)))
     ax.set_xticklabels(xlabels)
