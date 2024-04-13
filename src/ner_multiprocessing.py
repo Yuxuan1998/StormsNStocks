@@ -29,15 +29,6 @@ class EnhancedNewsEntityExtractor:
         return summary
 
     def analyze_article(self, article_text):
-        """
-        Analyzes a news article to extract and summarize named entities.
-        
-        Args:
-        article_text (str): The text of the news article to analyze.
-        
-        Returns:
-        dict: A summary of named entities and their frequencies in the article.
-        """
         doc = self.process_article(article_text)
         entities = self.extract_entities(doc)
         result = self.summarize_entities(entities)
@@ -45,7 +36,6 @@ class EnhancedNewsEntityExtractor:
 
 
 def process_article(article_path):
-    extractor = EnhancedNewsEntityExtractor(nlp)
     with open(article_path, 'r', encoding='utf-8') as file:
         article_text = file.read()
     # Split the article into chunks
@@ -74,7 +64,7 @@ def process_article(article_path):
     return summary
 
 def main():
-    directory_path = r'./data/disaster_news/guardian_articles'
+    directory_path = r'../data/news/'
     text_files = [os.path.join(directory_path, f) for f in os.listdir(directory_path) if f.endswith('.txt')]
     text_files.sort()
     
