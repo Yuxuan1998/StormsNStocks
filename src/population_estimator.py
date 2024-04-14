@@ -12,6 +12,7 @@ def fetch_historical_population(state_fips, years):
         data = c.acs5.get(('NAME', 'B01003_001E'), {'for': 'state:{}'.format(state_fips)}, year=int(year))
         if data:
             population = int(data[0]['B01003_001E'])
+            print(population)
             population_data.append(population)
     return population_data
 
@@ -34,12 +35,14 @@ def main():
     for state in states:
         historical_pop = fetch_historical_population(state.fips, years)
         estimated_pop_2023 = estimate_future_population(historical_pop)
+
         estimated_population_dict[state.name] = estimated_pop_2023
 
     return estimated_population_dict
 
-# Run the main function
+
+
+
 estimated_population_dict = main()
 
-# Print the estimated population dictionary
 print(estimated_population_dict)
