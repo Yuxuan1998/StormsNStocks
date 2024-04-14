@@ -5,6 +5,7 @@ import spacy
 from multiprocessing import Pool
 from collections import Counter
 from us_location_resolver import USLocationResolver
+import us
 
 class ParallelTextProcessor:
     def __init__(self, model="en_core_web_sm", chunk_size=1000000):
@@ -48,9 +49,18 @@ class ParallelTextProcessor:
         
         country_keywords = ['us', 'united states', 'united states of america', 'usa']
         filtered_dict_items = {key: value for key, value in combined_summary['GPE'].items() if key.lower() not in country_keywords}
-        state_name = [item[0] for item in sorted(filtered_dict_items.items(), key=lambda x: x[1], reverse=True)[:1]]
+        sorted_filtered_dict_items = sorted(filtered_dict_items.items(), key=lambda x: x[1], reverse=True)
+        
+        for i in range(1, len(sorted_filtered_dict_items)+1):
+            state_name = [item[0] for item in sorted_filtered_dict_items[i-1:i]]
+            state = us.states.lookup(str(state_name))
+            if state is not None and state not in us.states.TERRITORIES and state not in us.states.OBSOLETE:
+                break
+            else:
+                state_name = [item[0] for item in sorted_filtered_dict_items[:1]]
+        
         state_info = self.get_us_location(state_name, year)
-
+        
         return state_info
     
     def get_us_location(self, division_names: List[str], year: int):
@@ -66,7 +76,7 @@ class ParallelTextProcessor:
 
 
 def main():
-    article_path = r'data/news/2019_06_16_10.txt'
+    article_path = r'data/news/2019_08_26_20.txt'
     text_processor = ParallelTextProcessor(chunk_size=500000)
 
     with open(article_path, 'r', encoding='utf-8') as file:
@@ -78,6 +88,5 @@ def main():
     # print(combined_summary['PERSON'])
     print(result)
 
-lambda x: x[1]
 if __name__ == "__main__":
     main()

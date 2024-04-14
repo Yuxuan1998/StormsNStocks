@@ -40,5 +40,39 @@ def main() -> None:
         
         time.sleep(3)
 
+def double_check():
+     # Read the CSV file
+    df = pd.read_csv('updated_merged_dataset_copy.csv')
+    text_processor = ParallelTextProcessor(chunk_size=500000)
+    batch_size = 10
+
+    for i in range(0, len(df), batch_size):
+        end = i + batch_size
+
+        for index in range(i, end):
+            row = df.loc[index]
+            if pd.notna(row['error']):
+                print(f"Checking Row number: {index}...", end='')
+                year = int(row['pub_date'][:4])
+                text = row['text']
+                new_info_list = text_processor.process_text(text, year)
+
+                if new_info_list and isinstance(new_info_list, list):
+                    new_info = new_info_list[0]
+                    for key, value in new_info.items():
+                        df.at[index, key] = value
+                
+                df.at[index, 'error'] = None  # Optionally clear the error after processing
+                print("Done")
+
+        # Save the processed rows back to CSV incrementally
+        mode = 'w' if i == 0 else 'a'
+        header = True if i == 0 else False
+        df[i:min(end, len(df))].to_csv('batch_processed_data.csv', mode=mode, header=header, index=False)
+        time.sleep(2)
+    
+    
+
 if __name__ == "__main__":
-    main()
+    # main()
+    double_check()
