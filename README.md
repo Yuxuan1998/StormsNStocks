@@ -1,7 +1,7 @@
 # StormsNStocks
 CS5246 Group Project
 
-## Env
+## Enviroment Setup
 ```
 pyenv install 3.10
 pyenv local 3.10
@@ -10,15 +10,15 @@ poetry env use 3.10
 poetry intsall
 
 poetry run pip3 install news-please
+poetry run pip3 install catboost
 ```
 
 ## Data
-### Disaster Data
-- US natural disaster from 2019 to 2023
-- source: https://en.wikipedia.org/wiki/List_of_natural_disasters_in_the_United_States
-
 ### News
-- the guardian API: https://open-platform.theguardian.com/documentation/
+
+All downloaded news data are saved in `data/news.zip`
+
+- Before running the `news_collector` please register an access key for guardian API: https://open-platform.theguardian.com/documentation/
 
 - How to download news data
 ```

@@ -4,6 +4,18 @@ import pandas as pd
 from sklearn.model_selection import KFold
 
 
+def read_txt(path):
+    """
+    Read txt file of given path
+    """
+    with open(f"{path}", "r") as file:
+        lines = file.readlines()
+    res = []
+    for line in lines:
+        res.append(line.strip())
+    return " ".join(res)
+
+
 def kfold_cv_param_tuning(model_cls, params, df_train, k=5):
     res = {"idx": [], "score": []}
 

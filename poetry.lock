@@ -342,6 +342,35 @@ gs = ["google-cloud-storage"]
 s3 = ["boto3"]
 
 [[package]]
+name = "cmake"
+version = "3.29.2"
+description = "CMake is an open-source, cross-platform family of tools designed to build, test and package software"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "cmake-3.29.2-py3-none-macosx_10_10_universal2.macosx_10_10_x86_64.macosx_11_0_arm64.macosx_11_0_universal2.whl", hash = "sha256:1d40c5451d6467b20a0a6015a5a6b6dc86f61b83f71f935740485b259100a34e"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:ed3108e646cd65a4e23fa1cbe8123569a29334a3f2a8ce214d871406b161bedb"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:40aafe612b03a9fa140cca4024ba60b74cd92372f3f349d8062cba1f021e5001"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:027eebe9bb74c31759581a543f27bc1828fc76e6fc45b2b48b51f27847904669"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f1f087985fc2460476b0901716fbddb2fd69b7fe7bf1350e1ab5dc508d22600e"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:df2c63ce6d504aa4c91a42fd22d3887065ab029569691deb56ec19d0decd0ae9"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:6ea5ce007893d7d1363e13433dde1c0c7c344372213a90ff3c56e896a335301d"},
+    {file = "cmake-3.29.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f9e941e73202cfa667ee488d1d88b8a758b516dcfa2a2728e73dbdcbfbdebf57"},
+    {file = "cmake-3.29.2-py3-none-musllinux_1_1_aarch64.whl", hash = "sha256:37222e23485338c72b7ea51f865d8c6847d519f7e2222922fb70b4896ca6e897"},
+    {file = "cmake-3.29.2-py3-none-musllinux_1_1_i686.whl", hash = "sha256:eeed08932c748647488280dc97ac00bcfeae5d760451105200cfe66c52ce6468"},
+    {file = "cmake-3.29.2-py3-none-musllinux_1_1_ppc64le.whl", hash = "sha256:db7a05df020ba67bacd3070dd1645c76ca96fabd06d6aaa63288fd845706e47a"},
+    {file = "cmake-3.29.2-py3-none-musllinux_1_1_s390x.whl", hash = "sha256:83b35de822ddabaaa184a7d8f9827381350c42d627689c775b214347f57c9e41"},
+    {file = "cmake-3.29.2-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:cc0e36752e581430a93e58a268e515bb4ec1373b9e9911571f2cac1d2a6b5bec"},
+    {file = "cmake-3.29.2-py3-none-win32.whl", hash = "sha256:a941e26fba81cf74832c8a0e17e007452e05b6ad4941b3d2d18c75faa4a677d8"},
+    {file = "cmake-3.29.2-py3-none-win_amd64.whl", hash = "sha256:23336c8ca01205d18d92ed8de6c54e570c352a58e378b7f9adc02ef00f433960"},
+    {file = "cmake-3.29.2-py3-none-win_arm64.whl", hash = "sha256:e722a949f7c91084dba61f8f17a9854787182ab711ed0b84b1507b24a8e12e25"},
+    {file = "cmake-3.29.2.tar.gz", hash = "sha256:6a4c1185cb2eca7263190a5754d0c9edf738d9e50bff464f78f48d0c05318e7c"},
+]
+
+[package.extras]
+test = ["coverage (>=4.2)", "pytest (>=3.0.3)", "pytest-cov (>=2.4.0)"]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -2829,7 +2858,34 @@ matplotlib = "*"
 numpy = ">=1.6.1"
 pillow = "*"
 
+[[package]]
+name = "xgboost"
+version = "2.0.3"
+description = "XGBoost Python Package"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "xgboost-2.0.3-py3-none-macosx_10_15_x86_64.macosx_11_0_x86_64.macosx_12_0_x86_64.whl", hash = "sha256:b21b2bb188b162c615fce468db93e3f995f3690e6184aadc7743b58466dc7f13"},
+    {file = "xgboost-2.0.3-py3-none-macosx_12_0_arm64.whl", hash = "sha256:722d5b9351dfdf61973490dfd28abd42844db1cc469d07ed9b0cde9d1ffcdb32"},
+    {file = "xgboost-2.0.3-py3-none-manylinux2014_aarch64.whl", hash = "sha256:2315a57b1883221e2f78dd514559aa9797e6c272d995d22e45495a04adac93cc"},
+    {file = "xgboost-2.0.3-py3-none-manylinux2014_x86_64.whl", hash = "sha256:30bd5f789fad467fd49e04e5d19e04238b931682c3951a514da5c2410b3bf59c"},
+    {file = "xgboost-2.0.3-py3-none-win_amd64.whl", hash = "sha256:462f131d7bfb1bc42f67c57fa5aa3e57d2b5755b1573a6e0d2c7e8895164e0fc"},
+    {file = "xgboost-2.0.3.tar.gz", hash = "sha256:505955b5d770f8217a049beecce79e04a93787371c06dfb4b2414fec9d496bf3"},
+]
+
+[package.dependencies]
+numpy = "*"
+scipy = "*"
+
+[package.extras]
+dask = ["dask", "distributed", "pandas"]
+datatable = ["datatable"]
+pandas = ["pandas"]
+plotting = ["graphviz", "matplotlib"]
+pyspark = ["cloudpickle", "pyspark", "scikit-learn"]
+scikit-learn = ["scikit-learn"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d3c01edd54ce098db30d1c236c802cc59d0d4f476b3916e6235b45ceb2ebca1a"
+content-hash = "5b6578cc57dee5dd065cf663c6c304f45dde997694b76700909da816093b6e42"
